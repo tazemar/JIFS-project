@@ -1,0 +1,22 @@
+services:
+  web-app:
+    build:
+      context: .
+      dockerfile: web-app/Dockerfile
+    ports:
+      - "4200:80"
+    networks:
+      - app-network
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
