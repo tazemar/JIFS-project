@@ -5,7 +5,22 @@
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Update Angular dependencies in the 'web-app' folder
+  - package-ecosystem: "npm"
+    directory: "/web-app" # Location of Angular project
     schedule:
-      interval: "weekly"
+      interval: "weekly" # Frequency of dependency updates
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    versioning-strategy: "increase" # Can be set to 'increase', 'lockfile-only', etc.
+
+  # Update Spring Boot dependencies in the 'server' folder
+  - package-ecosystem: "maven"
+    directory: "/server" # Location of Spring Boot project
+    schedule:
+      interval: "weekly" # Frequency of dependency updates
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    versioning-strategy: "increase" # Can be set to 'increase', 'lockfile-only', etc.
