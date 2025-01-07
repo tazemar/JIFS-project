@@ -1,6 +1,5 @@
-package com.jifs.server.config;
+package com.jifs.server.config.security;
 
-import com.jifs.server.service.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

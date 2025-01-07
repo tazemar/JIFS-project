@@ -1,4 +1,4 @@
-package com.jifs.server.config;
+package com.jifs.server.config.security;
 
 import com.jifs.server.entity.Account;
 import com.jifs.server.entity.AccountPrincipal;

@@ -6,7 +6,7 @@ import com.jifs.server.dto.AccountDto;
 import com.jifs.server.entity.Account;
 import com.jifs.server.repository.AccountRepository;
 import com.jifs.server.service.AuthService;
-import com.jifs.server.service.JWTService;
+import com.jifs.server.config.security.JWTService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +20,11 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final JWTService jwtService;
 
-    public AuthServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, JWTService jwtService) {
+    public AuthServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, JWTService jwtService, BCryptPasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
         this.jwtService = jwtService;
-        this.passwordEncoder = new BCryptPasswordEncoder(12);
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override

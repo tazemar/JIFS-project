@@ -1,6 +1,5 @@
-package com.jifs.server.service.impl;
+package com.jifs.server.config.security;
 
-import com.jifs.server.service.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -18,11 +17,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JWTServiceImpl implements JWTService {
+public class JWTService {
 
     private String secretKey = "";
 
-    public JWTServiceImpl() {
+    public JWTService() {
         try {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
             SecretKey sk = keyGenerator.generateKey();
@@ -32,7 +31,6 @@ public class JWTServiceImpl implements JWTService {
         }
     }
 
-    @Override
     public String generateToken(String email) {
 
         Map<String, Object> claims = new HashMap<>();
@@ -48,13 +46,11 @@ public class JWTServiceImpl implements JWTService {
                 .compact();
     }
 
-    @Override
     public String extractUserName(String token) {
         // extract the username from jwt token
         return extractClaim(token, Claims::getSubject);
     }
 
-    @Override
     public boolean validateToken(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
