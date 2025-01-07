@@ -45,6 +45,6 @@ public class AuthServiceImpl implements AuthService {
         if (!passwordEncoder.matches(accountDto.getPassword(), account.getPassword())) {
             throw new AccountException("Password not match");
         }
-        return jwtService.generateToken(account.getUsername());
+        return jwtService.generateToken(account.getEmail());
     }
 }
