@@ -1,5 +1,6 @@
 package com.jifs.server.service.impl;
 
+import com.jifs.server.common.enums.Role;
 import com.jifs.server.common.exception.AccountException;
 import com.jifs.server.common.mapper.AccountMapper;
 import com.jifs.server.dto.AccountDto;
@@ -28,9 +29,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String createAccount(AccountDto accountDto) {
+    public String createAccount(AccountDto accountDto) throws AccountException {
+
+        if (accountRepository.existsByEmail(accountDto.getEmail())) {
+            throw new AccountException("Email already in use");
+        }
         Account account = accountMapper.dtoToAccount(accountDto);
         account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setRole(Role.USER);
         accountRepository.save(account);
         return account.getEmail();
     }
