@@ -1,7 +1,6 @@
 package com.jifs.server.config.security;
 
 import com.jifs.server.entity.Account;
-import com.jifs.server.entity.AccountPrincipal;
 import com.jifs.server.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
