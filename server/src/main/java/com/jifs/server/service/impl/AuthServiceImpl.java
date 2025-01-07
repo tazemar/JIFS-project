@@ -6,7 +6,8 @@ import com.jifs.server.dto.AccountDto;
 import com.jifs.server.entity.Account;
 import com.jifs.server.repository.AccountRepository;
 import com.jifs.server.service.AuthService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.jifs.server.config.security.JWTService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +17,13 @@ public class AuthServiceImpl implements AuthService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final JWTService jwtService;
 
-    public AuthServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, PasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, JWTService jwtService, BCryptPasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
+        this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -42,6 +45,6 @@ public class AuthServiceImpl implements AuthService {
         if (!passwordEncoder.matches(accountDto.getPassword(), account.getPassword())) {
             throw new AccountException("Password not match");
         }
-        return account.getEmail();
+        return jwtService.generateToken(account.getEmail());
     }
 }
