@@ -22,19 +22,11 @@ public class AuthController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, path = "/create")
     public ResponseEntity<Object> createAccount(@RequestBody @Valid AccountDto accountDto) {
-        try {
-            return new ResponseEntity<>(authService.createAccount(accountDto), HttpStatus.CREATED);
-        } catch (AccountException ex) {
-            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST, ex.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(authService.createAccount(accountDto), HttpStatus.CREATED);
     }
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> login(@RequestBody AccountDto accountDto) {
-        try {
-            return new ResponseEntity<>(authService.login(accountDto),HttpStatus.OK);
-        } catch (AccountException ex) {
-            return new ResponseEntity<>(new AppError(HttpStatus.BAD_REQUEST, ex.getMessage()),HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(authService.login(accountDto),HttpStatus.OK);
     }
 }

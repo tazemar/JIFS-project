@@ -1,13 +1,12 @@
 package com.jifs.server.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -15,6 +14,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AppError {
 
     @NotNull
@@ -50,7 +50,9 @@ public class AppError {
 
     public AppError(HttpStatus httpStatus, String description,  String message) {
         this(httpStatus, description);
-        this.message = message;
+        if (!Objects.equals(description, message)) {
+            this.message = message;
+        }
     }
 
     public AppError(HttpStatus httpStatus, String description, String message, String detail) {

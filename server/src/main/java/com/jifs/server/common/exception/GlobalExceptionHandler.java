@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(AccountException.class)
+    public ResponseEntity<AppError> handleAccountException(AccountException exception, HttpServletRequest req) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage(), exception, req);
+    }
+
     // Error handling on @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<AppError> handleValidationErrors(MethodArgumentNotValidException exception, HttpServletRequest req) {
@@ -30,12 +35,9 @@ public class GlobalExceptionHandler {
                     }
                     return objectError.getDefaultMessage();
                 })
-                .collect(Collectors.toList());
+                .toList();
 
-        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Validation failed");
-        errorDetail.setProperty("errors", errorMessages);
-
-        return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, String.valueOf(errorMessages), exception, req);
+        return buildResponseEntity(HttpStatus.BAD_REQUEST, String.valueOf(errorMessages), exception, req);
     }
 
     // Handling security-related errors
