@@ -25,6 +25,11 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(HttpStatus.BAD_REQUEST, exception.getMessage(), exception, req);
     }
 
+    @ExceptionHandler(RoleException.class)
+    public ResponseEntity<AppError> handleRoleException(RoleException exception, HttpServletRequest req) {
+        return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception, req);
+    }
+
     // Error handling on @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<AppError> handleValidationErrors(MethodArgumentNotValidException exception, HttpServletRequest req) {

@@ -1,6 +1,7 @@
 package com.jifs.server.common.enums;
 
-public enum Role {
+public enum RoleEnum {
     USER,
-    ADMIN
+    ADMIN,
+    SUPER_ADMIN
 }
