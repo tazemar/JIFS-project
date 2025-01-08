@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Auth",
+			"name": "User",
 			"item": [
 				{
 					"name": "Create Account",
@@ -21,17 +21,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\",\n  \"email\": \"test@example.com\"\n}"
+							"raw": "{\n  \"username\": \"user\",\n  \"password\": \"password123\",\n  \"email\": \"user@test.fr\"\n}"
 						},
 						"url": {
-							"raw": "{{http}}://{{ip}}/{{pathToRest}}/auth/create",
+							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{users}}/create",
 							"protocol": "{{http}}",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"{{pathToRest}}",
-								"auth",
+								"{{users}}",
 								"create"
 							]
 						}
@@ -63,17 +63,135 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+							"raw": "{\n  \"email\": \"admin@test.fr\",\n  \"password\": \"password123\"\n}"
 						},
 						"url": {
-							"raw": "{{http}}://{{ip}}/{{pathToRest}}/auth",
+							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{users}}",
 							"protocol": "{{http}}",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"{{pathToRest}}",
-								"auth"
+								"{{users}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{users}}",
+							"protocol": "{{http}}",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"{{pathToRest}}",
+								"{{users}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "All Accounts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{admins}}",
+							"protocol": "{{http}}",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"{{pathToRest}}",
+								"{{admins}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Promote Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\" : \"edd6f3f5-1846-4d3c-8d97-d27430cccadd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{admins}}",
+							"protocol": "{{http}}",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"{{pathToRest}}",
+								"{{admins}}"
 							]
 						}
 					},
@@ -137,6 +255,16 @@
 		{
 			"key": "pathToRest",
 			"value": "api"
+		},
+		{
+			"key": "users",
+			"value": "users",
+			"type": "string"
+		},
+		{
+			"key": "admins",
+			"value": "admins",
+			"type": "string"
 		}
 	]
 }
