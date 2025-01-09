@@ -10,14 +10,16 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthLayoutComponent,
-  },
-  {
-    path: 'auth/login',
-    component: LoginComponent,
-  },
-  {
-    path: 'auth/create',
-    component: CreateAccountComponent,
+    children: [
+      {
+        path: '',
+        component: LoginComponent,
+      },
+      {
+        path: 'create',
+        component: CreateAccountComponent,
+      },
+    ]
   },
   {
     path: '',

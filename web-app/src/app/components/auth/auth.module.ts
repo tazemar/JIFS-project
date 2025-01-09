@@ -6,11 +6,11 @@ import {RouterModule} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 
 @NgModule({
-  declarations: [CreateAccountComponent, AuthLayoutComponent, LoginComponent],
+  declarations: [CreateAccountComponent, LoginComponent],
   imports: [
     CommonModule,
     RouterModule
   ],
-  exports: [AuthLayoutComponent]
+  exports: []
 })
 export class AuthModule { }
