@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {catchError, Observable, Subscription, tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  private apiUrl = 'http://localhost:8080/api/users';
+
+  constructor(private http: HttpClient) { }
+
+  login(email: string, password: string): Observable<string> {
+    return this.http.post(this.apiUrl, { email, password }, {responseType: 'text'})
+  }
 
   isAuthenticated(): boolean {
-    // Remplacez cette logique par votre méthode d'authentification réelle
-    // Exemple : vérification d'un token dans le localStorage
     return !!localStorage.getItem('auth_token');
   }
 
-  // Méthode pour simuler une connexion
-  login(token: string): void {
+  storeToken(token: string ): void {
     localStorage.setItem('auth_token', token);
   }
 
-  // Méthode pour simuler une déconnexion
   logout(): void {
     localStorage.removeItem('auth_token');
   }

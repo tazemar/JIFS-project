@@ -1,2 +1,19 @@
-<p>login works!</p>
-<a [routerLink]="['/create']">Go to User Profile</a>
+<a [routerLink]="['/auth/create']">Create user</a>
+
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="email" [(ngModel)]="email" name="email" required>
+  </div>
+
+  <div>
+    <label for="password">Mot de passe</label>
+    <input id="password" type="password" [(ngModel)]="password" name="password" required>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <button type="submit">Se connecter</button>
+</form>
