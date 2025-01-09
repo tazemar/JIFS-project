@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {CreateAccountComponent} from './create-account/create-account.component';
 import {AuthLayoutComponent} from './auth-layout/auth-layout.component';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {RouterModule} from '@angular/router';
+import {LoginComponent} from './login/login.component';
 
 @NgModule({
-  declarations: [CreateAccountComponent, AuthLayoutComponent],
+  declarations: [CreateAccountComponent, AuthLayoutComponent, LoginComponent],
   imports: [
     CommonModule,
-    RouterOutlet,
-    RouterLink
+    RouterModule
   ],
   exports: [AuthLayoutComponent]
 })

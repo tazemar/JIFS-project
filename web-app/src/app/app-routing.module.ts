@@ -3,11 +3,17 @@ import {NgModule} from '@angular/core';
 import {AuthLayoutComponent} from './components/auth/auth-layout/auth-layout.component';
 import {MainLayoutComponent} from './components/main-layout/main-layout/main-layout.component';
 import {CreateAccountComponent} from './components/auth/create-account/create-account.component';
+import {LoginComponent} from './components/auth/login/login.component';
+import {AuthGuard} from './core/guard/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'auth',
     component: AuthLayoutComponent,
+  },
+  {
+    path: 'auth/login',
+    component: LoginComponent,
   },
   {
     path: 'auth/create',
@@ -16,9 +22,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [],
-    children: [
-    ]
+    canActivate: [AuthGuard]
   },
   {
     path: '**',
