@@ -4,6 +4,7 @@ import {AuthService} from '../../../core/services/auth.service';
 import {FormsModule} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {NgIf} from '@angular/common';
+import {SvgIconComponent} from "angular-svg-icon";
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import {NgIf} from '@angular/common';
   imports: [
     RouterLink,
     FormsModule,
-    NgIf
+    SvgIconComponent
   ],
   styleUrl: './login.component.scss'
 })
