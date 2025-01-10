@@ -1,19 +1,42 @@
-<a [routerLink]="['/auth/create']">Create user</a>
-
-<form (ngSubmit)="onSubmit()">
-  <div>
-    <label for="email">Email</label>
-    <input id="email" type="email" [(ngModel)]="email" name="email" required>
+<div class="login-header">
+  <div class="flex w-full justify-center">
+    <svg-icon src="assets/img/svg/kachow.svg" name="kachow" [svgStyle]="{
+      'width.px': 150,
+      'height.px': 150,
+      'fill': 'rgb(79, 70, 229)'
+    }">></svg-icon>
   </div>
+  <h2 class="main-title">Connect to your account</h2>
+</div>
 
-  <div>
-    <label for="password">Mot de passe</label>
-    <input id="password" type="password" [(ngModel)]="password" name="password" required>
-  </div>
+<div class="main-form-container">
+  <form (ngSubmit)="onSubmit()" class="main-form">
+    <div>
+      <label for="email" class="main-form-label">Email</label>
+      <div class="mt-2">
+        <input id="email" type="email" [(ngModel)]="email" name="email" required class="main-form-input">
+      </div>
+    </div>
 
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </div>
+    <div>
+      <div class="flex items-center justify-between">
+        <label for="password" class="main-form-label">Password</label>
+        <div class="text-sm">
+          <a href="#" class="login-forgot-password">Forget password ?</a>
+        </div>
+      </div>
+      <div class="mt-2">
+        <input id="password" type="password" [(ngModel)]="password" name="password" required class="main-form-input">
+      </div>
+    </div>
 
-  <button type="submit">Se connecter</button>
-</form>
+    <div>
+      <button type="submit" class="main-form-button">Connect</button>
+    </div>
+  </form>
+
+  <p class="login-footer">
+    Not member yet ?
+    <a [routerLink]="['/auth/create']" class="main-footer-link">Create user</a>
+  </p>
+</div>
