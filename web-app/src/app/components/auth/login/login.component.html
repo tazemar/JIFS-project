@@ -1,4 +1,4 @@
-<div class="login-header">
+<div class="main-header">
   <div class="flex w-full justify-center">
     <svg-icon src="assets/img/svg/kachow.svg" name="kachow" [svgStyle]="{
       'width.px': 150,
@@ -21,9 +21,9 @@
     <div>
       <div class="flex items-center justify-between">
         <label for="password" class="main-form-label">Password</label>
-        <div class="text-sm">
-          <a href="#" class="login-forgot-password">Forget password ?</a>
-        </div>
+<!--        <div class="text-sm">-->
+<!--          <a href="#" class="login-forgot-password">Forget password ?</a>-->
+<!--        </div>-->
       </div>
       <div class="mt-2">
         <input id="password" type="password" [(ngModel)]="password" name="password" required class="main-form-input">
@@ -35,7 +35,7 @@
     </div>
   </form>
 
-  <p class="login-footer">
+  <p class="main-footer">
     Not member yet ?
     <a [routerLink]="['/auth/create']" class="main-footer-link">Create user</a>
   </p>

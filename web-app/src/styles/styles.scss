@@ -3,7 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
-// todo : move to a global style
+.main-header {
+  @apply sm:mx-auto sm:w-full sm:max-w-sm;
+}
+
+.main-footer {
+  @apply mt-10 text-center text-sm text-gray-500;
+}
+
 .main-container {
   @apply flex min-h-full flex-col justify-center px-6 py-12 lg:px-8;
 }

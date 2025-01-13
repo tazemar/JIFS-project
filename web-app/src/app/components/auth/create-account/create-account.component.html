@@ -1,1 +1,36 @@
-<p>create-account works!</p>
+<div class="main-header">
+  <h2 class="main-title">Create your account</h2>
+</div>
+
+<div class="main-form-container">
+  <form (ngSubmit)="onSubmit()" class="main-form">
+    <div>
+      <div class="flex items-center justify-between">
+        <label for="username" class="main-form-label">Username</label>
+      </div>
+      <div class="mt-2">
+        <input id="username" type="text" [(ngModel)]="username" name="username" required class="main-form-input">
+      </div>
+    </div>
+
+    <div>
+      <label for="email" class="main-form-label">Email</label>
+      <div class="mt-2">
+        <input id="email" type="email" [(ngModel)]="email" name="email" required class="main-form-input">
+      </div>
+    </div>
+
+    <div>
+      <div class="flex items-center justify-between">
+        <label for="password" class="main-form-label">Password</label>
+      </div>
+      <div class="mt-2">
+        <input id="password" type="password" [(ngModel)]="password" name="password" required class="main-form-input">
+      </div>
+    </div>
+
+    <div>
+      <button type="submit" class="main-form-button">Create</button>
+    </div>
+  </form>
+</div>
