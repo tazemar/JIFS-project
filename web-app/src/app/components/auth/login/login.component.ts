@@ -31,7 +31,6 @@ export class LoginComponent {
       try {
         this.authService.login(this.email, this.password).subscribe({
           next: (response) => {
-            console.log(response);
             this.authService.storeToken(response);
           },
           error: (e) => console.error(e),

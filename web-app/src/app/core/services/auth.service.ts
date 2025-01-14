@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   createAccount(username: string, email: string, password: string) {
-    return this.http.post(this.apiUrl, { username, email, password }, {responseType: 'text'})
+    return this.http.post(this.apiUrl + "/create", { username, email, password }, {responseType: 'text'})
   }
 
   isAuthenticated(): boolean {

@@ -3,6 +3,8 @@ import {FormsModule} from '@angular/forms';
 import {SvgIconComponent} from 'angular-svg-icon';
 import {AuthService} from '../../../core/services/auth.service';
 import {Router} from '@angular/router';
+import {ErrorPopupComponent} from '../../../shared/components/error-popup/error-popup.component';
+import {ErrorService} from '../../../shared/components/error-popup/error.service';
 
 @Component({
   selector: 'app-create-account',
@@ -19,7 +21,7 @@ export class CreateAccountComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private errorService: ErrorService) {}
 
   async onSubmit(): Promise<void> {
     if (this.username && this.email && this.password) {
@@ -27,17 +29,18 @@ export class CreateAccountComponent {
         this.authService.createAccount(this.username, this.email, this.password).subscribe({
           next: (response) => {
             console.log(response);
-            this.authService.storeToken(response);
           },
-          error: (e) => console.error(e),
+          error: (e) => {
+            console.error(e);
+            this.errorService.showError(e);
+          },
           complete: () => this.router.navigate([''])
         })
       } catch (error) {
-        this.errorMessage = 'Erreur lors de la creation du compte';
+        this.errorService.showError('Erreur lors de la creation du compte');
       }
     } else {
-      this.errorMessage = 'Email et mot de passe requis!';
+      this.errorService.showError('Email et mot de passe requis!');
     }
   }
-
 }
