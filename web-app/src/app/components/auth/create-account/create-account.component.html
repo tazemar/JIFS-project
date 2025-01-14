@@ -3,20 +3,28 @@
 </div>
 
 <div class="main-form-container">
-  <form (ngSubmit)="onSubmit()" class="main-form">
+  <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()" class="main-form">
     <div>
       <div class="flex items-center justify-between">
         <label for="username" class="main-form-label">Username</label>
       </div>
       <div class="mt-2">
-        <input id="username" type="text" [(ngModel)]="username" name="username" required class="main-form-input">
+        <input id="username" type="text" formControlName="username" name="username" required class="main-form-input">
+      </div>
+      <div *ngIf="createAccountForm.get('username')?.touched && createAccountForm.get('username')?.invalid">
+        <small class="error" *ngIf="createAccountForm.get('username')?.errors?.['required']">Le nom d'utilisateur est requis.</small>
+        <small class="error" *ngIf="createAccountForm.get('username')?.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
       </div>
     </div>
 
     <div>
       <label for="email" class="main-form-label">Email</label>
       <div class="mt-2">
-        <input id="email" type="email" [(ngModel)]="email" name="email" required class="main-form-input">
+        <input id="email" type="email" formControlName="email" name="email" required class="main-form-input">
+      </div>
+      <div *ngIf="createAccountForm.get('email')?.touched && createAccountForm.get('email')?.invalid">
+        <small class="error" *ngIf="createAccountForm.get('email')?.errors?.['required']">L'email est requis.</small>
+        <small class="error" *ngIf="createAccountForm.get('email')?.errors?.['email']">Veuillez entrer un email valide.</small>
       </div>
     </div>
 
@@ -25,12 +33,21 @@
         <label for="password" class="main-form-label">Password</label>
       </div>
       <div class="mt-2">
-        <input id="password" type="password" [(ngModel)]="password" name="password" required class="main-form-input">
+        <input id="password" type="password" formControlName="password" name="password" required class="main-form-input">
+      </div>
+      <div *ngIf="createAccountForm.get('password')?.touched && createAccountForm.get('password')?.invalid">
+        <small class="error" *ngIf="createAccountForm.get('password')?.errors?.['required']">Le mot de passe est requis.</small>
+        <small class="error" *ngIf="createAccountForm.get('password')?.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
       </div>
     </div>
 
     <div>
-      <button type="submit" class="main-form-button">Create</button>
+      <button type="submit" [disabled]="!isFormValid()" class="main-form-button">Create</button>
     </div>
   </form>
+
+  <p class="main-footer">
+    Already have an account ?
+    <a [routerLink]="['/auth']" class="main-footer-link">Login</a>
+  </p>
 </div>

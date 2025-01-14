@@ -10,11 +10,15 @@
 </div>
 
 <div class="main-form-container">
-  <form (ngSubmit)="onSubmit()" class="main-form">
+  <form [formGroup]="loginAccountForm" (ngSubmit)="onSubmit()" class="main-form">
     <div>
       <label for="email" class="main-form-label">Email</label>
       <div class="mt-2">
-        <input id="email" type="email" [(ngModel)]="email" name="email" required class="main-form-input">
+        <input id="email" type="email" formControlName="email" name="email" required class="main-form-input">
+      </div>
+      <div *ngIf="loginAccountForm.get('email')?.touched && loginAccountForm.get('email')?.invalid">
+        <small class="error" *ngIf="loginAccountForm.get('email')?.errors?.['required']">L'email est requis.</small>
+        <small class="error" *ngIf="loginAccountForm.get('email')?.errors?.['email']">Veuillez entrer un email valide.</small>
       </div>
     </div>
 
@@ -26,12 +30,16 @@
 <!--        </div>-->
       </div>
       <div class="mt-2">
-        <input id="password" type="password" [(ngModel)]="password" name="password" required class="main-form-input">
+        <input id="password" type="password" formControlName="password" name="password" required class="main-form-input">
+      </div>
+      <div *ngIf="loginAccountForm.get('password')?.touched && loginAccountForm.get('password')?.invalid">
+        <small class="error" *ngIf="loginAccountForm.get('password')?.errors?.['required']">Le mot de passe est requis.</small>
+        <small class="error" *ngIf="loginAccountForm.get('password')?.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
       </div>
     </div>
 
     <div>
-      <button type="submit" class="main-form-button">Connect</button>
+      <button type="submit" [disabled]="!isFormValid()" class="main-form-button">Connect</button>
     </div>
   </form>
 
