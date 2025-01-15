@@ -1,4 +1,4 @@
-<div class="login-header">
+<div class="main-header">
   <div class="flex w-full justify-center">
     <svg-icon src="assets/img/svg/kachow.svg" name="kachow" [svgStyle]="{
       'width.px': 150,
@@ -6,37 +6,45 @@
       'fill': 'rgb(79, 70, 229)'
     }">></svg-icon>
   </div>
-  <h2 class="main-title">Connect to your account</h2>
+  <h2 class="main-title">{{ 'auth.login.title' | translate }}</h2>
 </div>
 
 <div class="main-form-container">
-  <form (ngSubmit)="onSubmit()" class="main-form">
+  <form [formGroup]="loginAccountForm" (ngSubmit)="onSubmit()" class="main-form">
     <div>
-      <label for="email" class="main-form-label">Email</label>
+      <label for="email" class="main-form-label">{{ 'auth.email.title' | translate }}</label>
       <div class="mt-2">
-        <input id="email" type="email" [(ngModel)]="email" name="email" required class="main-form-input">
+        <input id="email" type="email" formControlName="email" name="email" required class="main-form-input">
+      </div>
+      <div *ngIf="loginAccountForm.get('email')?.touched && loginAccountForm.get('email')?.invalid">
+        <small class="error" *ngIf="loginAccountForm.get('email')?.errors?.['required']">{{ 'auth.email.errors.required' | translate }}</small>
+        <small class="error" *ngIf="loginAccountForm.get('email')?.errors?.['email']">{{ 'auth.email.errors.valid' | translate }}</small>
       </div>
     </div>
 
     <div>
       <div class="flex items-center justify-between">
-        <label for="password" class="main-form-label">Password</label>
-        <div class="text-sm">
-          <a href="#" class="login-forgot-password">Forget password ?</a>
-        </div>
+        <label for="password" class="main-form-label">{{ 'auth.password.title' | translate }}</label>
+<!--        <div class="text-sm">-->
+<!--          <a href="#" class="login-forgot-password">Forget password ?</a>-->
+<!--        </div>-->
       </div>
       <div class="mt-2">
-        <input id="password" type="password" [(ngModel)]="password" name="password" required class="main-form-input">
+        <input id="password" type="password" formControlName="password" name="password" required class="main-form-input">
+      </div>
+      <div *ngIf="loginAccountForm.get('password')?.touched && loginAccountForm.get('password')?.invalid">
+        <small class="error" *ngIf="loginAccountForm.get('password')?.errors?.['required']">{{ 'auth.password.errors.required' | translate }}</small>
+        <small class="error" *ngIf="loginAccountForm.get('password')?.errors?.['minlength']">{{ 'auth.password.errors.minlength' | translate }}</small>
       </div>
     </div>
 
     <div>
-      <button type="submit" class="main-form-button">Connect</button>
+      <button type="submit" [disabled]="!isFormValid()" class="main-form-button">{{ 'auth.login.connect' | translate }}</button>
     </div>
   </form>
 
-  <p class="login-footer">
-    Not member yet ?
-    <a [routerLink]="['/auth/create']" class="main-footer-link">Create user</a>
+  <p class="main-footer">
+    {{ 'auth.login.notMember' | translate }}
+    <a [routerLink]="['/auth/create']" class="main-footer-link">{{ 'auth.login.createAccount' | translate }}</a>
   </p>
 </div>
