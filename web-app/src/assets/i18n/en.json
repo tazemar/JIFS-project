@@ -1,0 +1,37 @@
+{
+  "auth": {
+    "login": {
+      "title": "Connect to your account",
+      "submit": "Connect",
+      "notUser": "Not member yet ?",
+      "createAccount": "Create user"
+    },
+    "create": {
+      "title": "Create your account",
+      "submit": "Create",
+      "alreadyUser": "Already have an account ?",
+      "login": "Login"
+    },
+    "email": {
+      "title": "Email",
+      "errors": {
+        "required": "Email required",
+        "valid": "Enter a valid email"
+      }
+    },
+    "username": {
+      "title": "Username",
+      "errors": {
+        "required": "Username required",
+        "minlength": "Username must contain at least 3 characters."
+      }
+    },
+    "password": {
+      "title": "Password",
+      "errors": {
+        "required": "Password required",
+        "minlength": "Password must contain at least 6 characters."
+      }
+    }
+  }
+}

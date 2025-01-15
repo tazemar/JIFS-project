@@ -4,17 +4,19 @@ import {AuthService} from '../../../core/services/auth.service';
 import {Router, RouterLink} from '@angular/router';
 import {ErrorService} from '../../../shared/components/error-popup/error.service';
 import {NgIf} from '@angular/common';
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgIf,
-    RouterLink
-  ]
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        RouterLink,
+        TranslatePipe
+    ]
 })
 export class CreateAccountComponent implements OnInit {
 

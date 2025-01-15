@@ -1,53 +1,53 @@
 <div class="main-header">
-  <h2 class="main-title">Create your account</h2>
+  <h2 class="main-title">{{ 'auth.create.title' | translate }}</h2>
 </div>
 
 <div class="main-form-container">
   <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()" class="main-form">
     <div>
       <div class="flex items-center justify-between">
-        <label for="username" class="main-form-label">Username</label>
+        <label for="username" class="main-form-label">{{ 'auth.username.title' | translate }}</label>
       </div>
       <div class="mt-2">
         <input id="username" type="text" formControlName="username" name="username" required class="main-form-input">
       </div>
       <div *ngIf="createAccountForm.get('username')?.touched && createAccountForm.get('username')?.invalid">
-        <small class="error" *ngIf="createAccountForm.get('username')?.errors?.['required']">Le nom d'utilisateur est requis.</small>
-        <small class="error" *ngIf="createAccountForm.get('username')?.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
+        <small class="error" *ngIf="createAccountForm.get('username')?.errors?.['required']">{{ 'auth.username.errors.required' | translate }}</small>
+        <small class="error" *ngIf="createAccountForm.get('username')?.errors?.['minlength']">{{ 'auth.username.errors.minlength' | translate }}</small>
       </div>
     </div>
 
     <div>
-      <label for="email" class="main-form-label">Email</label>
+      <label for="email" class="main-form-label">{{ 'auth.email.title' | translate }}</label>
       <div class="mt-2">
         <input id="email" type="email" formControlName="email" name="email" required class="main-form-input">
       </div>
       <div *ngIf="createAccountForm.get('email')?.touched && createAccountForm.get('email')?.invalid">
-        <small class="error" *ngIf="createAccountForm.get('email')?.errors?.['required']">L'email est requis.</small>
-        <small class="error" *ngIf="createAccountForm.get('email')?.errors?.['email']">Veuillez entrer un email valide.</small>
+        <small class="error" *ngIf="createAccountForm.get('email')?.errors?.['required']">{{ 'auth.email.errors.required' | translate }}</small>
+        <small class="error" *ngIf="createAccountForm.get('email')?.errors?.['email']">{{ 'auth.email.errors.valid' | translate }}</small>
       </div>
     </div>
 
     <div>
       <div class="flex items-center justify-between">
-        <label for="password" class="main-form-label">Password</label>
+        <label for="password" class="main-form-label">{{ 'auth.password.title' | translate }}</label>
       </div>
       <div class="mt-2">
         <input id="password" type="password" formControlName="password" name="password" required class="main-form-input">
       </div>
       <div *ngIf="createAccountForm.get('password')?.touched && createAccountForm.get('password')?.invalid">
-        <small class="error" *ngIf="createAccountForm.get('password')?.errors?.['required']">Le mot de passe est requis.</small>
-        <small class="error" *ngIf="createAccountForm.get('password')?.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
+        <small class="error" *ngIf="createAccountForm.get('password')?.errors?.['required']">{{ 'auth.password.errors.required' | translate }}</small>
+        <small class="error" *ngIf="createAccountForm.get('password')?.errors?.['minlength']">{{ 'auth.password.errors.minlength' | translate }}</small>
       </div>
     </div>
 
     <div>
-      <button type="submit" [disabled]="!isFormValid()" class="main-form-button">Create</button>
+      <button type="submit" [disabled]="!isFormValid()" class="main-form-button">{{ 'auth.create.submit' | translate }}</button>
     </div>
   </form>
 
   <p class="main-footer">
-    Already have an account ?
-    <a [routerLink]="['/auth']" class="main-footer-link">Login</a>
+    {{ 'auth.create.submit' | translate }}
+    <a [routerLink]="['/auth']" class="main-footer-link">{{ 'auth.create.submit' | translate }}</a>
   </p>
 </div>

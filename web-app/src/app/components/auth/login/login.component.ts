@@ -7,6 +7,7 @@ import {NgIf} from '@angular/common';
 import {SvgIconComponent} from "angular-svg-icon";
 import e, {response} from 'express';
 import {ErrorService} from '../../../shared/components/error-popup/error.service';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ import {ErrorService} from '../../../shared/components/error-popup/error.service
     FormsModule,
     SvgIconComponent,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    TranslateModule
   ],
   styleUrl: './login.component.scss'
 })
