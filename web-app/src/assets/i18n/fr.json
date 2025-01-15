@@ -1,3 +1,24 @@
 {
-  "auth": "Connectez vous a votre compte"
+  "auth": {
+    "login": {
+      "title": "Connexion au compte",
+      "connect": "Connexion",
+      "notMember": "Pas encore membre ?",
+      "createAccount": "Créer un compte"
+    },
+    "email": {
+      "title": "Mail",
+      "errors": {
+        "required": "L'email est requis.",
+        "valid": "Veuillez entrer un email valide."
+      }
+    },
+    "password": {
+      "title": "Mot de passe",
+      "errors": {
+        "required": "Le mot de passe est requis.",
+        "minlength": "Le mot de passe doit contenir au moins 6 caractères."
+      }
+    }
+  }
 }

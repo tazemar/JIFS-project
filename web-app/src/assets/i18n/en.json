@@ -1,3 +1,24 @@
 {
-  "auth": "Connect to your account"
+  "auth": {
+    "login": {
+      "title": "Connect to your account",
+      "connect": "Connect",
+      "notMember": "Not member yet ?",
+      "createAccount": "Create user"
+    },
+    "email": {
+      "title": "Email",
+      "errors": {
+        "required": "Email required",
+        "valid": "Enter a valid email"
+      }
+    },
+    "password": {
+      "title": "Password",
+      "errors": {
+        "required": "Password required",
+        "minlength": "Password must contain at least 6 characters."
+      }
+    }
+  }
 }
