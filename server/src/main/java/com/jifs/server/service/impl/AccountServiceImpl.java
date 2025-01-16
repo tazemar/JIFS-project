@@ -5,7 +5,9 @@ import com.jifs.server.common.exception.AccountException;
 import com.jifs.server.common.exception.RoleException;
 import com.jifs.server.common.mapper.AccountMapper;
 import com.jifs.server.dto.AccountDto;
+import com.jifs.server.dto.response.AccountResponseDto;
 import com.jifs.server.dto.IdDto;
+import com.jifs.server.dto.response.LoginResponseDto;
 import com.jifs.server.entity.Account;
 import com.jifs.server.entity.Role;
 import com.jifs.server.repository.AccountRepository;
@@ -13,6 +15,8 @@ import com.jifs.server.repository.RoleRepository;
 import com.jifs.server.service.AccountService;
 import com.jifs.server.config.security.JWTService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String login(AccountDto accountDto) throws AccountException {
+    public LoginResponseDto login(AccountDto accountDto) throws AccountException {
         log.info("AccountService : Login account -> {}", accountDto.getEmail());
         Optional<Account> accountOptional = accountRepository.findAccountByEmail(accountDto.getEmail());
         if (accountOptional.isEmpty()) {
@@ -68,31 +72,59 @@ public class AccountServiceImpl implements AccountService {
         if (!passwordEncoder.matches(accountDto.getPassword(), account.getPassword())) {
             throw new AccountException("Password not match");
         }
-        return jwtService.generateToken(account.getEmail());
+        return new LoginResponseDto(jwtService.generateToken(account.getEmail()), account.getRole().getName().name(), account.getId());
     }
 
     @Override
-    public List<AccountDto> allUsers() {
+    public AccountResponseDto getAccount(IdDto idDto) {
+        log.info("AccountService : Get Account -> {}", idDto.getId());
+        Account account = getAccountFunction(idDto);
+        return accountMapper.AccountToAccountResponseDto(account);
+    }
+
+    @Override
+    public String updateAccount(AccountDto accountDto) {
+        log.info("AccountService : Update Account -> {}", accountDto.getId());
+        Account originAccount = getAccountFunction(new IdDto(accountDto.getId()));
+
+        if (accountDto.getUsername() != null) {
+            log.info("AccountService : Update username : {} -> {}", originAccount.getUsername(), accountDto.getUsername());
+            originAccount.setUsername(accountDto.getUsername());
+        }
+        if (accountDto.getEmail() != null && !accountDto.getEmail().equals(originAccount.getEmail())) {
+            log.info("AccountService : Update email : {} -> {}", originAccount.getEmail(), accountDto.getEmail());
+            originAccount.setEmail(accountDto.getEmail());
+        }
+        if (accountDto.getPassword() != null) {
+            log.info("AccountService : Update password");
+            originAccount.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        }
+        accountRepository.save(originAccount);
+        return "Account updated successfully";
+    }
+
+    @Override
+    public List<AccountResponseDto> allUsers() {
         log.info("AccountService : Getting all users");
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
         if (optionalRole.isEmpty()) {
             throw new RoleException("Role does not exist");
         }
         Role userRole = optionalRole.get();
-        return accountMapper.accountsToAccountDtos(accountRepository.findByRole(userRole));
+        return accountMapper.accountsToAccountResponseDtos(accountRepository.findByRole(userRole));
     }
 
     @Override
-    public List<AccountDto> allAccounts() {
+    public List<AccountResponseDto> allAccounts() {
         log.info("AccountService : Getting all accounts");
-        return accountMapper.accountsToAccountDtos(accountRepository.findAll());
+        return accountMapper.accountsToAccountResponseDtos(accountRepository.findAll());
     }
 
     @Override
     public String promoteAdministrator(IdDto idDto) throws AccountException {
-        log.info("AccountService : Promote to administrator : {}", idDto.getId());
-        Optional<Account> account = accountRepository.findById(idDto.getId());
-        if (account.isEmpty()) {
+        log.info("AccountService : Promote to administrator -> {}", idDto.getId());
+        Optional<Account> optionalAccount = accountRepository.findById(idDto.getId());
+        if (optionalAccount.isEmpty()) {
             throw new AccountException("Account does not exist");
         }
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.ADMIN);
@@ -100,9 +132,27 @@ public class AccountServiceImpl implements AccountService {
             throw new RoleException("Role does not exist");
         }
 
-        Account adminAccount = account.get();
+        Account adminAccount = optionalAccount.get();
         adminAccount.setRole(optionalRole.get());
         accountRepository.save(adminAccount);
         return adminAccount.getEmail();
+    }
+
+    private Account getAccountFunction(IdDto idDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String authenticatedEmail = authentication.getName();
+
+        boolean isUser = authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"));
+
+        Optional<Account> optionalAccount = accountRepository.findById(idDto.getId());
+        if (optionalAccount.isEmpty()) {
+            throw new AccountException("Account does not exist");
+        }
+        Account account = optionalAccount.get();
+        if (isUser && !account.getEmail().equals(authenticatedEmail)) {
+            throw new AccountException("You can retrieve only your account");
+        }
+        return account;
     }
 }
