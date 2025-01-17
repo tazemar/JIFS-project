@@ -1,7 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { LoginResponse } from '../models/back-models';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,11 @@ export class AuthService {
 
   storeUser(userData: LoginResponse ): void {
 
-    const myDate = (new Date().getTime() + userData.jwtExpiration) / 1000;
+    const myDate =  new Date(new Date().getTime() + userData.jwtExpiration);
 
-    this.cookieService.set('authToken', userData.token, myDate, '/', '', true, 'Strict');
-    this.cookieService.set('role', userData.role, myDate, '/', '', true, 'Strict');
-    this.cookieService.set('userId', userData.id, myDate, '/', '', true, 'Strict'); 
+    this.cookieService.set('authToken', userData.token, {expires: myDate, path: '/', secure: true , sameSite: 'Strict'});
+    this.cookieService.set('role', userData.role,  {expires: myDate, path: '/', secure: true , sameSite: 'Strict'});
+    this.cookieService.set('userId', userData.id,  {expires: myDate, path: '/', secure: true , sameSite: 'Strict'});
   }
 
   getAuthToken(): string {

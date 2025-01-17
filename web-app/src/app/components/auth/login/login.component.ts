@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouterLink} from '@angular/router';
 import {AuthService} from '../../../core/services/auth.service';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
 import {NgIf} from '@angular/common';
 import {SvgIconComponent} from "angular-svg-icon";
-import e, {response} from 'express';
 import {ErrorService} from '../../../shared/components/error-popup/error.service';
 import {TranslateModule} from '@ngx-translate/core';
+import {LoginResponse} from '../../../core/models/back-models';
 
 @Component({
   selector: 'app-login',
