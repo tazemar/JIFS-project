@@ -1,6 +1,8 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
+import { LoginResponse } from '../models/back-models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +11,11 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:8080/api/users';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService) {
   }
 
-  login(email: string, password: string): Observable<string> {
-    return this.http.post(this.apiUrl, { email, password }, {responseType: 'text'})
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.apiUrl, { email, password })
   }
 
   createAccount(username: string, email: string, password: string) {
@@ -21,14 +23,33 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!sessionStorage.getItem('auth_token');
+    return !!this.cookieService.get('authToken');
   }
 
-  storeToken(token: string ): void {
-    sessionStorage.setItem('auth_token', token);
+  storeUser(userData: LoginResponse ): void {
+
+    const myDate =  new Date(new Date().getTime() + userData.jwtExpiration);
+
+    this.cookieService.set('authToken', userData.token, {expires: myDate, path: '/', secure: true , sameSite: 'Strict'});
+    this.cookieService.set('role', userData.role,  {expires: myDate, path: '/', secure: true , sameSite: 'Strict'});
+    this.cookieService.set('userId', userData.id,  {expires: myDate, path: '/', secure: true , sameSite: 'Strict'});
+  }
+
+  getAuthToken(): string {
+    return this.cookieService.get('authToken');
+  }
+
+  getRole(): string {
+    return this.cookieService.get('role');
+  }
+
+  getUserId(): string {
+    return this.cookieService.get('userId');
   }
 
   logout(): void {
-    sessionStorage.removeItem('auth_token');
+    this.cookieService.delete('authToken');
+    this.cookieService.delete('role');
+    this.cookieService.delete('userId');
   }
 }

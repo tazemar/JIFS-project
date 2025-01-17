@@ -21,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"user\",\n  \"password\": \"password123\",\n  \"email\": \"user@test.fr\"\n}"
+							"raw": "{\n  \"username\": \"user2\",\n  \"password\": \"password123\",\n  \"email\": \"user3@test.fr\"\n}"
 						},
 						"url": {
 							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{users}}/create",
@@ -45,20 +45,30 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var responseBody = pm.response.text()",
-									"pm.environment.set(\"bearerToken\", responseBody);"
+									"var responseJson = pm.response.json()",
+									"pm.environment.set(\"bearerToken\", responseJson.token);"
 								],
 								"type": "text/javascript",
 								"packages": {}
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -74,6 +84,121 @@
 							"path": [
 								"{{pathToRest}}",
 								"{{users}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\" : \"edd6f3f5-1846-4d3c-8d97-d27430cccadd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{users}}/id",
+							"protocol": "{{http}}",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"{{pathToRest}}",
+								"{{users}}",
+								"id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\" : \"edd6f3f5-1846-4d3c-8d97-d27430cccadd\",\n    \"username\": \"letaz\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{http}}://{{ip}}/{{pathToRest}}/{{users}}/id",
+							"protocol": "{{http}}",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"{{pathToRest}}",
+								"{{users}}",
+								"id"
 							]
 						}
 					},
