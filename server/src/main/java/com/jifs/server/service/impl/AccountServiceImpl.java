@@ -15,6 +15,7 @@ import com.jifs.server.repository.RoleRepository;
 import com.jifs.server.service.AccountService;
 import com.jifs.server.config.security.JWTService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,6 +34,10 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JWTService jwtService;
+
+    @Value("${security.jwt.expiration-time}")
+    private long jwtExpiration;
+
 
 
     public AccountServiceImpl(AccountRepository accountRepository, RoleRepository roleRepository, AccountMapper accountMapper, JWTService jwtService, BCryptPasswordEncoder passwordEncoder) {
@@ -72,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
         if (!passwordEncoder.matches(accountDto.getPassword(), account.getPassword())) {
             throw new AccountException("Password not match");
         }
-        return new LoginResponseDto(jwtService.generateToken(account.getEmail()), account.getRole().getName().name(), account.getId());
+        return new LoginResponseDto(jwtService.generateToken(account.getEmail()), account.getRole().getName().name(), account.getId(), jwtExpiration);
     }
 
     @Override
