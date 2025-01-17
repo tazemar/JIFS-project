@@ -12,8 +12,8 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  login(email: string, password: string): Observable<string> {
-    return this.http.post(this.apiUrl, { email, password }, {responseType: 'text'})
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.apiUrl, { email, password })
   }
 
   createAccount(username: string, email: string, password: string) {
@@ -21,14 +21,18 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!sessionStorage.getItem('auth_token');
+    return !!sessionStorage.getItem('authToken');
   }
 
-  storeToken(token: string ): void {
-    sessionStorage.setItem('auth_token', token);
+  storeUser(userData: LoginResponse ): void {
+    sessionStorage.setItem('authToken', userData.token);
+    sessionStorage.setItem('role', userData.role);
+    sessionStorage.setItem('userId', userData.id);
   }
 
   logout(): void {
-    sessionStorage.removeItem('auth_token');
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('userId');
   }
 }

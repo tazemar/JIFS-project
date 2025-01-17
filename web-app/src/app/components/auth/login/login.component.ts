@@ -46,8 +46,8 @@ export class LoginComponent implements OnInit {
       if (formValues.email && formValues.password) {
         try {
           this.authService.login(formValues.email, formValues.password).subscribe({
-            next: (response) => {
-              this.authService.storeToken(response);
+            next: (response: LoginResponse) => {
+              this.authService.storeUser(response);
             },
             error: (e) => {
               const errorObj = JSON.parse(e.error);
